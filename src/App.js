@@ -2,23 +2,16 @@ import React,{Component} from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 
-class ShelfListName extends Component{
-  render(){
-    return(
-      <div className="list-books-title">
-        <h1>{this.props.name}</h1>
-      </div>
-    )
-  }
-}
 
-class ShelfList extends Component {
+class Shelf extends Component {
   render(){
     let lastCategory = this.props.books[0].shelf;
     let books = [];
     return (
       <div className="list-books">
-        { this.props.title  && ( <ShelfListName name={this.props.title}/> ) }
+          <div className="list-books-title">
+            <h1>{this.props.title}</h1>
+          </div>
         <div className="list-books-content">
           <div>
               {this.props.books.map( (book,index,array) => {
@@ -166,7 +159,7 @@ class BooksApp extends React.Component {
         {this.state.showSearchPage ? (
           <SearchBook onSwitchPage={this.switchPage} />
         ) : (
-          <ShelfList title='My Reads' books={Sbook} onSwitchPage={this.switchPage}/>
+          <Shelf title='My Reads' books={Sbook} onSwitchPage={this.switchPage}/>
         )}
       </div>
     )
