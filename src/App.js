@@ -1,131 +1,8 @@
 import React,{Component} from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
-
-
-class Shelf extends Component {
-  render(){
-    let lastCategory = this.props.books[0].shelf;
-    let books = [];
-    return (
-      <div className="list-books">
-          <div className="list-books-title">
-            <h1>{this.props.title}</h1>
-          </div>
-        <div className="list-books-content">
-          <div>
-              {this.props.books.map( (book,index,array) => {
-                  let element = null
-                  if(lastCategory !== book.shelf || index+1 === array.length  ){
-                    if (index+1 === array.length){
-                      books.push(book)
-                    }
-                    element = <BookShelf key={lastCategory} bookcategory={lastCategory} booklist={books}/>
-                    lastCategory = book.shelf
-                    books = []
-                  }
-                  if (index+1 !== array.length){
-                    books.push(book)
-                  }
-                  return element
-              })}
-          </div>
-        </div>
-
-        <div className="open-search">
-          <a onClick={this.props.onSwitchPage}>Add a book</a>
-        </div>
-      </div>
-
-    )
-  }
-}
-
-
-class BookShelf extends Component {
-  render(){
-    return (
-      <div className="bookshelf">
-        <BookCategory title={this.props.bookcategory} />
-        <BookList books={this.props.booklist}/>
-     </div>
-    )
-  }
-}
-
-class BookCategory extends Component{
-  render(){
-    return (
-      <h2 className="bookshelf-title">{this.props.title}</h2>
-    )
-  }
-}
-
-class BookList extends Component {
-  render(){
-    return (
-      <div className="bookshelf-books">
-        <ol className="books-grid">
-          {this.props.books.map(book =>{
-              return (<li key={book.id} ><Book book={book} /></li>)
-          })}
-        </ol>
-      </div>
-    )
-  }
-}
-
-class Book extends Component {
-  render(){
-    const book = this.props.book
-    return (
-        <div className="book">
-        <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks !== undefined ? book.imageLinks.thumbnail: ''})`}}></div>
-            <BookCategoryList />
-          </div>
-        <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors}</div>
-      </div>
-    )
-  }
-}
-
-class BookCategoryList extends Component {
-  render(){
-    return (
-      <div className="book-shelf-changer">
-      <select>
-        <option value="none" disabled>Move to...</option>
-        <option value="currentlyReading">Currently Reading</option>
-        <option value="wantToRead">Want to Read</option>
-        <option value="read">Read</option>
-        <option value="none">None</option>
-      </select>
-    </div>
-    )
-  }
-}
-
-class SearchBook extends Component {
-
-
-  render(){
-    return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <a className="close-search" onClick={this.props.onSwitchPage}>Close</a>
-          <div className="search-books-input-wrapper">
-            <input type="text" placeholder="Search by title or author"/>
-          </div>
-        </div>
-        <div className="search-books-results">
-            <BookList books={Sbook}/>
-        </div>
-    </div>
-    )
-  }
-}
+import Shelf,{ShelfSearchBook} from './Shelf'
+import {Route} from 'react-router-dom'
 
 const Sbook = [
   {id:1,title:'To Kill a Mockingbird',authors:'Harper Lee',imageLinks:{thumbnail:'http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api'},shelf:'Currently Reading'},
@@ -146,7 +23,7 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    books: Sbook
   }
 
   switchPage = () => {
@@ -154,13 +31,15 @@ class BooksApp extends React.Component {
   };
 
   render() {
+
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchBook onSwitchPage={this.switchPage} />
-        ) : (
-          <Shelf title='My Reads' books={Sbook} onSwitchPage={this.switchPage}/>
-        )}
+        <Route exact path='/' render={() =>(
+          <Shelf onSwitchPage={this.switchPage} title='MyReads' books={this.state.books} />
+        )} />
+        <Route path='/search' render={({ history }) =>(
+          <ShelfSearchBook onSwitchPage={this.switchPage} />
+        )} />
       </div>
     )
   }
