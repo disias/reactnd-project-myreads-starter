@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom'
 
 class Shelf extends Component {
   render(){
-    let lastCategory = this.props.books[0].shelf;
+
+    let lastCategory = this.props.books.length > 0  ? this.props.books[0].shelf : []
     let books = [];
     return (
       <div className="list-books">
@@ -19,7 +20,7 @@ class Shelf extends Component {
                     if (index+1 === array.length){
                       books.push(book)
                     }
-                    element = <BookShelf key={lastCategory} bookcategory={lastCategory} booklist={books}/>
+                    element = <ShelfBooks key={lastCategory} bookcategory={lastCategory} booklist={books}/>
                     lastCategory = book.shelf
                     books = []
                   }
@@ -41,19 +42,19 @@ class Shelf extends Component {
 }
 
 
-export class BookShelf extends Component {
+export class ShelfBooks extends Component {
   render(){
     return (
       <div className="bookshelf">
-        <BookShelfCategory title={this.props.bookcategory} />
-        <BookList books={this.props.booklist}/>
+        <ShelfBookCategory title={this.props.bookcategory} />
+        <BookList books={this.props.booklist} element={<ShelfBookCategoryList/>}/>
      </div>
     )
   }
 }
 
 
-export class BookShelfCategory extends Component{
+export class ShelfBookCategory extends Component {
   render(){
     return (
       <h2 className="bookshelf-title">{this.props.title}</h2>
@@ -62,7 +63,7 @@ export class BookShelfCategory extends Component{
 }
 
 
-export class BookShelfCategoryList extends Component {
+export class ShelfBookCategoryList extends Component {
   render(){
     return (
       <div className="book-shelf-changer">
