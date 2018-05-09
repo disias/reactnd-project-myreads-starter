@@ -21,11 +21,11 @@ class Book extends Component {
     return (
         <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks !== undefined ? book.imageLinks.thumbnail: ''})`}}></div>
+          <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks !== undefined ? book.imageLinks.thumbnail: ''})`}} data-teste="imageLinks"></div>
             {element}
           </div>
-        <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors}</div>
+        <div className="book-title" data-teste="title" >{book.title}</div>
+        <div className="book-authors" data-teste="authors">{book.authors}</div>
       </div>
     )
   }
