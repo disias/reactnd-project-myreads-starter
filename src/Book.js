@@ -1,67 +1,66 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
+import StarRatingComponent from 'react-star-rating-component'
 
 class Book extends Component {
 
-  static defaultProps = {
-    element: null
-  };
 
   static propTypes = {
     book: PropTypes.shape({
       title: PropTypes.string,
       authors: PropTypes.arrayOf(PropTypes.string),
-      imageLinks: PropTypes.shape({thumbnail :PropTypes.string})}),
-    element: PropTypes.element
+      imageLinks: PropTypes.shape({thumbnail :PropTypes.string})})
   };
 
+  componentWillUnmount() {
+    console.log('Book-componentWillUnmount')
+  }
+
+  componentDidMount(){
+    console.log('Book-componentDidMount')
+  }
+
   render(){
-    const book = this.props.book;
-    const element = this.props.element;
+    const { book , shelves , onMoveBook } = this.props;
+
+
     return (
-        <div className="book">
+      <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks !== undefined ? book.imageLinks.thumbnail: ''})`}} data-teste="imageLinks"></div>
-            {element}
-          </div>
+          <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks !== undefined ? book.imageLinks.thumbnail: '/icons/placeholder.png'})`}} data-teste="imageLinks"></div>
+            <div className="book-shelf-changer" >
+              <select defaultValue={book.shelf} onChange={(e) => onMoveBook(book,e.target.value.trim())}>
+                <option disabled>Move to...</option>
+                { shelves.map( shelf => (
+                  <option key={shelf.key} value={shelf.key}>{shelf.value}</option>
+                ))}
+                <option value="none">None</option>
+              </select>
+            </div>
+        </div>
         <div className="book-title" data-teste="title" >{book.title}</div>
-        <div className="book-authors" data-teste="authors">{book.authors}</div>
+
+        {book.authors ? book.authors.map(author => (
+          <div key={author} className="book-authors" data-teste="authors">{author}</div>
+        )): '' }
+
+        {book.categories ? book.categories.map(category => (
+          <div key={category} className="book-categories" data-teste="category">{category}</div>
+        )) : '' }
+
+        <div className="book-rating">
+          <StarRatingComponent
+            editing={false}
+            name='rating'
+            value={book.averageRating}>
+          </StarRatingComponent>
+        </div>
+        <Link to={`${book.infoLink}`} className="book-more-info" target="_blank" title="More info">[ + ] More Info</Link>
       </div>
     )
   }
 }
 
 
-
-export class BookList extends Component {
-
-  static defaultProps = {
-    element: null
-  };
-
-  static propTypes = {
-    books: PropTypes.arrayOf(
-      PropTypes.shape({
-      title: PropTypes.string,
-      authors: PropTypes.arrayOf(PropTypes.string),
-      imageLinks: PropTypes.shape({thumbnail :PropTypes.string})})),
-    element: PropTypes.element
-  };
-
-  render(){
-    const element = this.props.element;
-    const books   =  this.props.books.map(book =>(
-      <li key={book.id} ><Book book={book} element={element} /></li>
-    ))
-
-    return (
-      <div className="bookshelf-books">
-        <ol className="books-grid">
-          {books}
-        </ol>
-      </div>
-    )
-  }
-}
-
-export default Book
+export default Book;
