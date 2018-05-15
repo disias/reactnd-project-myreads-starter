@@ -1,10 +1,11 @@
-import React,{Component} from 'react'
-import * as BooksAPI from './BooksAPI'
-import './App.css'
-import Shelf from './Shelf'
-import SearchBook from './SearchBook'
-import bySort from 'sort-by'
-import {Route} from 'react-router-dom'
+import React,{Component} from 'react';
+import * as BooksAPI from './BooksAPI';
+import './App.css';
+import Shelf from './Shelf';
+import SearchBook from './SearchBook';
+import bySort from 'sort-by';
+import PropTypes from 'prop-types';
+import {Route} from 'react-router-dom';
 
 /**
  *
@@ -13,6 +14,12 @@ import {Route} from 'react-router-dom'
  * @extends {Component}
  */
 class BooksApp extends Component {
+
+   //PropType  BooksApp
+  static propTypes = {
+    shelves: PropTypes.array.isRequired,
+  };
+
 
   // contém todo o estado da aplicação segundo o principio do "source of truth"
   // fiz o "lifted up" do componente searchBook
