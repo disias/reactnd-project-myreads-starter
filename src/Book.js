@@ -63,18 +63,17 @@ class Book extends Component {
         )): null }
 
         {book.categories ? book.categories.map(category => (
-          <div key={category} className="book-categories" data-teste="category">{category}</div>
+          <div key={category} className="book-categorys" data-teste="category">{category}</div>
         )) : null }
 
         <div className="book-rating">
           <StarRatingComponent
             data-teste="averageRating"
             editing={false}
-            name='rating'
             value={book.averageRating}>
           </StarRatingComponent>
         </div>
-        <Link to={`${book.infoLink}`} className="book-more-info" target="_blank" data-teste="infoLink" title="More info">[ + ] More Info</Link>
+        <Link to={`${book.infoLink}`} className="book-info" target="_blank" data-teste="infoLink" title="Info">( * ) Info</Link>
       </div>
     )
   }
