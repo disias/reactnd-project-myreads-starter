@@ -48,6 +48,8 @@ class BooksApp extends Component {
           })
         }))
       })
+    }else{
+      this.setState({booksResearched:[]})
     }
   }
 
