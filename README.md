@@ -34,11 +34,11 @@ To begin the React server and run the application:
 This is what the app should look like, once you open it in your browser.
 
 ![Shelf]
-(https://github.com/disias/reactnd-project-myreads-starter/screenshot/shelf.png 
+(https://github.com/disias/reactnd-project-myreads-starter/blob/master/screenshot/shelf.png
 "My-Reads App")
 
 ![searchBook]
-(https://github.com/disias/reactnd-project-myreads-starter/screenshot/searchBook.png  
+(https://github.com/disias/reactnd-project-myreads-starter/blob/master/screenshot/searchBook.png  
 "My-Reads App")
 
 
