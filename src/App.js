@@ -14,6 +14,8 @@ import {Route} from 'react-router-dom'
  */
 class BooksApp extends Component {
 
+  // contém todo o estado da aplicação segundo o principio do "source of truth"
+  // fiz o "lifted up" do componente searchBook
   state = {
       bookshelf:[],
       booksResearched:[],
@@ -55,16 +57,16 @@ class BooksApp extends Component {
     })
   }
 
+  // chama a Api para trazer os livros da minha prateleira de livros
   getMyBooks = () =>{
-    // chama a Api para trazer os livros da minha prateleira de livros
     BooksAPI.getAll().then((books)=>{
       this.setState({ bookshelf : books.sort(bySort('shelf')) })
       this.clearSearch()
     })
   }
 
+  // limpa o estado da pesquisa toda vez que o componente for desmontado
   clearSearch = () =>{
-    // limpa o estado da pesquisa toda vez que o componente for desmontado
       this.setState({ booksResearched:[] , searchText: '' })
   }
 
@@ -72,13 +74,20 @@ class BooksApp extends Component {
     console.log('BooksApp-componentWillUnmount')
  }
 
+  // função do ciclo de vida apos a renderização de todo compomentes da arvore abaixo do App.js
+  // para que possa ser atualizado os dados do estado e renderizado novamente apenas o componentes
+  // books que é o menor NO da arvore (não sei pq mas o componente book é chamado duas vezes apos
+  // o estado com os book ser atualizado porém no console do cinclo de vida ele é montando apenas
+  // uma vez)
   componentDidMount(){
     console.log('BooksApp-componentDidMount')
     this.getMyBooks()
   }
 
   render() {
-
+    // adicionado duas rotas uma para o componente Shelf e outro para componente SearchBook
+    // segundo documentação esse dois componentes tem que esta envolvido dentro de um tag
+    // Router ou BrowserRouter que contas no index.js da apliação.
     return (
       <div className="app">
         <Route exact path='/' render={() =>(
@@ -86,7 +95,6 @@ class BooksApp extends Component {
           books={this.state.bookshelf}
           shelves={this.props.shelves}
           onMoveBook={this.moveBook}
-          onGetMyBook={this.getMyBooks}
           />
         )} />
         <Route path='/search' render={({ history }) =>(

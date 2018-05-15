@@ -1,23 +1,21 @@
-import React ,{Component}  from 'react'
-import BookList from './BookList'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import React ,{Component}  from 'react';
+import BookList from './BookList';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 class Shelf extends Component {
 
   // PropTypes Default
   static defaultProps = {
-    title: 'MyReads',
-    books: []
+    title: 'MyReads'
   };
 
-  // PropTypes
+  //PropType  Shelf
   static propTypes = {
-    books: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string,
-      authors: PropTypes.arrayOf(PropTypes.string),
-      imageLinks: PropTypes.shape({thumbnail :PropTypes.string})})),
-    title: PropTypes.string
+    title: PropTypes.string,
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    onMoveBook : PropTypes.func.isRequired
   };
 
   componentDidMount(){
@@ -30,7 +28,8 @@ class Shelf extends Component {
 
 
   render(){
-
+    //tribuição via desestruturação é uma expressão JavaScript que possibilita
+    //extrair dados de arrays ou objetos em variáveis distintas.
     const { title , books , shelves , onMoveBook } = this.props;
 
     const elements = shelves.map( shelf => (

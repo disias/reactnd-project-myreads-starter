@@ -11,12 +11,11 @@ import Book from './Book'
  */
 class BookList extends Component {
 
+  //PropType  BookList
   static propTypes = {
-    books: PropTypes.arrayOf(
-      PropTypes.shape({
-      title: PropTypes.string,
-      authors: PropTypes.arrayOf(PropTypes.string),
-      imageLinks: PropTypes.shape({thumbnail :PropTypes.string})}))
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    onMoveBook : PropTypes.func.isRequired
   };
 
   componentWillUnmount() {
@@ -29,8 +28,11 @@ class BookList extends Component {
 
 
 
-  render(){
+   render(){
+    //tribuição via desestruturação é uma expressão JavaScript que possibilita
+    //extrair dados de arrays ou objetos em variáveis distintas.
     const { books , shelves , onMoveBook } = this.props;
+    // Alimenta o booklist com books
     const elements = books.map( book =>(
       <li key={book.id}>
         <Book book={book} shelves={shelves} onMoveBook={onMoveBook} />
